@@ -6,7 +6,7 @@ function Card(props) {
     // function handleClick() {
     //     props.onCardClick(props.card);
     //   } 
-      
+      //console.log(props.card);
     return (
         <li className="photo-grid__item-fotocard">
                 <img className="photo-grid__item" 
@@ -20,7 +20,7 @@ function Card(props) {
                     <h2 className="photo-grid__place-name">{props.card.name}</h2>
                     <div className="photo-grid__likes-container">
                         <button type="button" className="photo-grid__heart"></button>
-                        <p className="photo-grid__like-counter">777</p>
+                        <p className="photo-grid__like-counter">{props.card.likes.length}</p>
                     </div>
                 </div>
             </li>

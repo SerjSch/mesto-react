@@ -1,6 +1,4 @@
 import React from 'react';
-
-
 function ImagePopup(props) {
   const {isOpen, onClose} = props;
   return (
@@ -13,5 +11,4 @@ function ImagePopup(props) {
 </div>
   );
 }
-
 export default ImagePopup;
