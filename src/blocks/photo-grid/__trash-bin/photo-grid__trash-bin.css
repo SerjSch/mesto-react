@@ -18,3 +18,8 @@
 .photo-grid__trash-bin:hover {
     opacity: 0.6;
 }
+
+.photo-grid__trash-bin_hidden {
+    display: none;
+    visibility: hidden;
+}

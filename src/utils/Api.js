@@ -40,7 +40,7 @@ export class Api {
                 method: 'PATCH',
                 headers: this._headers,
                 body: JSON.stringify({
-                    avatar: picture.link
+                    avatar: picture.avatar
                 })
             })
             .then(this._getResponseData);
