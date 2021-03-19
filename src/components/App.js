@@ -1,13 +1,13 @@
 import React from 'react';
-import Header from './Header.jsx';
-import Main from './Main.jsx';
-import Footer from './Footer.jsx';
-import ImagePopup from './ImagePopup.jsx';
+import Header from './Header.js';
+import Main from './Main.js';
+import Footer from './Footer.js';
+import ImagePopup from './ImagePopup.js';
 import api from "../utils/Api.js";
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
-import EditProfilePopup from './EditProfilePopup.jsx';
-import EditAvatarPopup from './EditAvatarPopup.jsx';
-import AddPlacePopup from './AddPlacePopup.jsx';
+import EditProfilePopup from './EditProfilePopup.js';
+import EditAvatarPopup from './EditAvatarPopup.jx';
+import AddPlacePopup from './AddPlacePopup.js';
 
 function App() {
 
@@ -50,6 +50,7 @@ function App() {
                 console.log('Ошибка при обновление данных пользователя', err)
             })
     }
+
     function handleUpdateAvatar(userData) {
         api.sendUserAvatar(userData)
             .then((res) => {
@@ -70,6 +71,7 @@ function App() {
             })
     }
     const [delCard, setDelCard] = React.useState(null);
+
     function handleCardDelete(card) {
         setDelCard(card)
         api.delCardFromServer(card._id).then(() => {
@@ -83,20 +85,24 @@ function App() {
 
     /////////////////////////////////////////////////////////////////////////////////////////
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+
     function handleEditProfileClick() {
         setIsEditProfilePopupOpen(true)
     }
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+
     function handleAddPlaceClick() {
         setIsAddPlacePopupOpen(true)
     }
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+
     function handleEditAvatarClick() {
         setIsEditAvatarPopupOpen(true)
     }
     ////////////////////////////////////////////////////////////////////////////////
     const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState({});
+
     function handleCardClick(card) {
         setIsImagePopupOpen(true);
         setSelectedCard(card)
@@ -109,43 +115,47 @@ function App() {
         setIsImagePopupOpen(false)
     }
 
-    return (
-        <CurrentUserContext.Provider value={currentUser}>
-            <div className="page">
-                <div className="page__container">
-                    <Header />
-                    <Main
-                        cards={cards}
-                        onEditProfile={handleEditProfileClick}
-                        onAddPlace={handleAddPlaceClick}
-                        onEditAvatar={handleEditAvatarClick}
-                        onCardClick={handleCardClick}
-                        onCardLike={handleCardLike}
-                        onDeleteCard={handleCardDelete} />
-                    <Footer />
-                    <EditProfilePopup
-                        isOpen={isEditProfilePopupOpen}
-                        onClose={closeAllPopups}
-                        currentUser={currentUser}
-                        onUpdateUser={handleUpdateUser} />
-                    <EditAvatarPopup
-                        onUpdateAvatar={handleUpdateAvatar}
-                        isOpen={isEditAvatarPopupOpen}
-                        onClose={closeAllPopups} />
+    return ( <
+        CurrentUserContext.Provider value = { currentUser } >
+        <
+        div className = "page" >
+        <
+        div className = "page__container" >
+        <
+        Header / >
+        <
+        Main cards = { cards }
+        onEditProfile = { handleEditProfileClick }
+        onAddPlace = { handleAddPlaceClick }
+        onEditAvatar = { handleEditAvatarClick }
+        onCardClick = { handleCardClick }
+        onCardLike = { handleCardLike }
+        onDeleteCard = { handleCardDelete }
+        /> <
+        Footer / >
+        <
+        EditProfilePopup isOpen = { isEditProfilePopupOpen }
+        onClose = { closeAllPopups }
+        currentUser = { currentUser }
+        onUpdateUser = { handleUpdateUser }
+        /> <
+        EditAvatarPopup onUpdateAvatar = { handleUpdateAvatar }
+        isOpen = { isEditAvatarPopupOpen }
+        onClose = { closeAllPopups }
+        />
 
-                    {/* ПОПАП КАРТИНКА */}
-                    <ImagePopup
-                        isOpen={isImagePopupOpen}
-                        card={selectedCard}
-                        onClose={closeAllPopups} />
-                    {/* ПОПАП НОВОЕ МЕСТО */}
-                    <AddPlacePopup
-                        isOpen={isAddPlacePopupOpen}
-                        onClose={closeAllPopups}
-                        onAddCard={handleAddPlaceSubmit} />
-                </div>
-            </div>
-        </CurrentUserContext.Provider>
+        { /* ПОПАП КАРТИНКА */ } <
+        ImagePopup isOpen = { isImagePopupOpen }
+        card = { selectedCard }
+        onClose = { closeAllPopups }
+        /> { / * ПОПАП НОВОЕ МЕСТО * / } <
+        AddPlacePopup isOpen = { isAddPlacePopupOpen }
+        onClose = { closeAllPopups }
+        onAddCard = { handleAddPlaceSubmit }
+        /> < /
+        div > <
+        /div> < /
+        CurrentUserContext.Provider >
     );
 }
 export default App;
