@@ -2,12 +2,12 @@ import React from 'react';
 import Header from './Header.jsx';
 import Main from './Main.jsx';
 import Footer from './Footer.jsx';
-import PopupWithForm from './PopupWithForm.jsx';
 import ImagePopup from './ImagePopup.jsx';
 import api from "../utils/Api.js";
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import EditProfilePopup from './EditProfilePopup.jsx';
 import EditAvatarPopup from './EditAvatarPopup.jsx';
+import AddPlacePopup from './AddPlacePopup.jsx';
 
 function App() {
 
@@ -52,18 +52,28 @@ function App() {
     }
     function handleUpdateAvatar(userData) {
         api.sendUserAvatar(userData)
-        .then((res) => {
-            setUserData(res);
-            closeAllPopups();
-        }).catch((err) => {
-            console.log('Ошибка в обновлении аватара', err)
-        })
+            .then((res) => {
+                setUserData(res);
+                closeAllPopups();
+            }).catch((err) => {
+                console.log('Ошибка в обновлении аватара', err)
+            })
     }
 
+    function handleAddPlaceSubmit(userCardData) {
+        api.sendNewCard(userCardData)
+            .then((newCard) => {
+                setCards([newCard, ...cards]);
+                closeAllPopups()
+            }).catch((err) => {
+                console.log('Ошибка в отправке фотокарточки на сервер', err)
+            })
+    }
     const [delCard, setDelCard] = React.useState(null);
-    function handleCardDelete() {
-        api.delCard(delCard._id).then(() => {
-            const newCards = cards.filter((c) => c._id !== delCard._id);
+    function handleCardDelete(card) {
+        setDelCard(card)
+        api.delCardFromServer(card._id).then(() => {
+            const newCards = cards.filter((c) => c._id !== card._id);
             setCards(newCards);
             closeAllPopups()
         }).catch((err) => {
@@ -71,11 +81,7 @@ function App() {
         })
     }
 
-    function handleDelClick(card) {
-        setDelCard(card)
-    }
     /////////////////////////////////////////////////////////////////////////////////////////
-
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
     function handleEditProfileClick() {
         setIsEditProfilePopupOpen(true)
@@ -115,7 +121,7 @@ function App() {
                         onEditAvatar={handleEditAvatarClick}
                         onCardClick={handleCardClick}
                         onCardLike={handleCardLike}
-                        onDeleteCard={handleDelClick} />
+                        onDeleteCard={handleCardDelete} />
                     <Footer />
                     <EditProfilePopup
                         isOpen={isEditProfilePopupOpen}
@@ -123,37 +129,23 @@ function App() {
                         currentUser={currentUser}
                         onUpdateUser={handleUpdateUser} />
                     <EditAvatarPopup
-                    onUpdateAvatar={handleUpdateAvatar} 
-                    isOpen={isEditAvatarPopupOpen} 
-                    onClose={closeAllPopups} />
-
-                    {/* ПОПАП НОВОЕ МЕСТО */}
-                    <PopupWithForm isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} title="Новое место" forSubmit="Создать">
-                        <input id="name-card" type="text" minLength="3" maxLength="30" required="" className="popup__input popup__input_name_place" name="name" placeholder="Название" noValidate="" />
-                        <span id="name-card-error" className="error"></span>
-                        <input id="link" required="" type="url" className="popup__input popup__input_name_url" name="link" placeholder="Ссылка на картинку" />
-                        <span id="link-error" className="error"></span>
-                    </PopupWithForm>
-
-
+                        onUpdateAvatar={handleUpdateAvatar}
+                        isOpen={isEditAvatarPopupOpen}
+                        onClose={closeAllPopups} />
 
                     {/* ПОПАП КАРТИНКА */}
-                    <ImagePopup isOpen={isImagePopupOpen} card={selectedCard} onClose={closeAllPopups} />
-
+                    <ImagePopup
+                        isOpen={isImagePopupOpen}
+                        card={selectedCard}
+                        onClose={closeAllPopups} />
+                    {/* ПОПАП НОВОЕ МЕСТО */}
+                    <AddPlacePopup
+                        isOpen={isAddPlacePopupOpen}
+                        onClose={closeAllPopups}
+                        onAddCard={handleAddPlaceSubmit} />
                 </div>
             </div>
         </CurrentUserContext.Provider>
     );
 }
 export default App;
-
-
-    // function handleEditAvatarClick() {
-    //     document.querySelector('.popup_avatar').classList.add('popup_opened');
-    // };
-    // function handleEditProfileClick() {
-    //     document.querySelector('.popup_profilePopup').classList.add('popup_opened');
-    // }
-    // function handleAddPlaceClick() {
-    //     document.querySelector('.popup_newplace').classList.add('popup_opened');
-    // }

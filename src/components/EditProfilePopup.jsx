@@ -7,29 +7,30 @@ function EditProfilePopup(props) {
   const curentUser = React.useContext(CurrentUserContext);
   const [name, setName] = React.useState(`${curentUser.name}`);
   const [description, setDescription] = React.useState(`${curentUser.about}`);
+  
   function handleSetName(e) {
     setName(e.target.value)
   }
   function handleSetDescription(e) {
     setDescription(e.target.value)
   }
-// После загрузки текущего пользователя из API
-// его данные будут использованы в управляемых компонентах.
-React.useEffect(() => {
+  // После загрузки текущего пользователя из API
+  // его данные будут использованы в управляемых компонентах.
+  React.useEffect(() => {
     setName(curentUser.name);
     setDescription(curentUser.about);
-}, [curentUser]);
+  }, [curentUser]);
 
-function handleSubmit(e) {
-  // Запрещаем браузеру переходить по адресу формы
-  e.preventDefault();
+  function handleSubmit(e) {
+    // Запрещаем браузеру переходить по адресу формы
+    e.preventDefault();
 
-  // Передаём значения управляемых компонентов во внешний обработчик
-  props.onUpdateUser({
-    name,
-    about: description,
-  });
-}
+    // Передаём значения управляемых компонентов во внешний обработчик
+    props.onUpdateUser({
+      name,
+      about: description,
+    });
+  }
 
   return (
     <PopupWithForm isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit} title="Редактировать профиль" forSubmit="Сохранить">

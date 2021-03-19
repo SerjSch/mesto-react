@@ -21,13 +21,13 @@ export class Api {
     }
 
     /////Отправляем измененные данные пользователя на сервер////////////////
-    sendUserInfo(values) {
+    sendUserInfo(userData) {
         return fetch(this._baseUrl + '/users/me', {
                 method: 'PATCH',
                 headers: this._headers,
                 body: JSON.stringify({
-                    name: values.name,
-                    about: values.discription
+                    name: userData.name,
+                    about: userData.about
                 })
             })
             .then(this._getResponseData);
@@ -53,7 +53,7 @@ export class Api {
                 method: 'POST',
                 headers: this._headers,
                 body: JSON.stringify({
-                    name: values.name,
+                    name: values.place,
                     link: values.link
                 })
             })
