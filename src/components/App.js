@@ -3,7 +3,7 @@ import Header from "./Header.js";
 import Main from "./Main.js";
 import Footer from "./Footer.js";
 import ImagePopup from "./ImagePopup.js";
-import api from "../utils/api.js";
+import Api from "../utils/api.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 import EditProfilePopup from "./EditProfilePopup.js";
 import EditAvatarPopup from "./EditAvatarPopup.js";
@@ -17,7 +17,7 @@ function App() {
     avatar: "",
   });
   React.useEffect(() => {
-    api
+    Api
       .getUserData()
       .then((res) => {
         setUserData(res);
@@ -29,7 +29,7 @@ function App() {
 
   const [cards, setCards] = React.useState([]);
   React.useEffect(() => {
-    api
+    Api
       .getInitialCards()
       .then((res) => {
         setCards(res);
@@ -43,13 +43,13 @@ function App() {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.likeTheCard(card._id, !isLiked).then((newCard) => {
+    Api.likeTheCard(card._id, !isLiked).then((newCard) => {
       setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
     });
   }
 
   function handleUpdateUser(userData) {
-    api
+    Api
       .sendUserInfo(userData)
       .then((res) => {
         setUserData(res);
@@ -61,7 +61,7 @@ function App() {
   }
 
   function handleUpdateAvatar(userData) {
-    api
+    Api
       .sendUserAvatar(userData)
       .then((res) => {
         setUserData(res);
@@ -73,7 +73,7 @@ function App() {
   }
 
   function handleAddPlaceSubmit(userCardData) {
-    api
+    Api
       .sendNewCard(userCardData)
       .then((newCard) => {
         setCards([newCard, ...cards]);
@@ -87,7 +87,7 @@ function App() {
 
   function handleCardDelete(card) {
     setDelCard(card);
-    api
+    Api
       .delCardFromServer(card._id)
       .then(() => {
         const newCards = cards.filter((c) => c._id !== card._id);
