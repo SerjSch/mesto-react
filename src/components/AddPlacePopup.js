@@ -30,6 +30,7 @@ function AddPlacePopup(props) {
       forSubmit="Создать"
     >
       <input
+        value={place}
         onChange={handlePlaceChange}
         id="name-card"
         type="text"
@@ -43,6 +44,7 @@ function AddPlacePopup(props) {
       />
       <span id="name-card-error" className="error"></span>
       <input
+        value={link}
         onChange={handleLinkChange}
         id="link"
         required=""

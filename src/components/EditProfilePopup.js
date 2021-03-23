@@ -42,6 +42,7 @@ function EditProfilePopup(props) {
       forSubmit="Сохранить"
     >
       <input
+        value={name}
         onChange={handleSetName}
         id="user_name"
         type="text"
@@ -54,6 +55,7 @@ function EditProfilePopup(props) {
       />
       <span id="user_name-error" className="error"></span>
       <input
+        value={description}
         onChange={handleSetDescription}
         id="about"
         type="text"

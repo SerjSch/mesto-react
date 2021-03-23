@@ -10,7 +10,7 @@ import EditAvatarPopup from "./EditAvatarPopup.js";
 import AddPlacePopup from "./AddPlacePopup.js";
 
 function App() {
-  const curentUser = React.useContext(CurrentUserContext);
+  
   const [currentUser, setUserData] = React.useState({
     name: "",
     about: "",
